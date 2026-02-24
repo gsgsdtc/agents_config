@@ -1,0 +1,81 @@
+{
+  "version": 3,
+  "skills": {
+    "backend-developer": {
+      "source": "kienhaminh/anti-chaotic",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/kienhaminh/anti-chaotic.git",
+      "skillPath": ".agent/skills/backend-developer/SKILL.md",
+      "skillFolderHash": "f51d2c9f8a6bcb6af8b72b4b4b39ac86917b1443",
+      "installedAt": "2026-02-03T01:31:11.415Z",
+      "updatedAt": "2026-02-03T01:31:11.415Z"
+    },
+    "devops-engineer": {
+      "source": "kienhaminh/anti-chaotic",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/kienhaminh/anti-chaotic.git",
+      "skillPath": ".agent/skills/devops-engineer/SKILL.md",
+      "skillFolderHash": "cd4a48368c07af649134189663433dce5f3420c0",
+      "installedAt": "2026-02-03T01:31:11.634Z",
+      "updatedAt": "2026-02-03T01:31:11.634Z"
+    },
+    "frontend-developer": {
+      "source": "kienhaminh/anti-chaotic",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/kienhaminh/anti-chaotic.git",
+      "skillPath": ".agent/skills/frontend-developer/SKILL.md",
+      "skillFolderHash": "84d24e99a536dc7421a5f08828d7087ff9424d82",
+      "installedAt": "2026-02-03T01:31:11.852Z",
+      "updatedAt": "2026-02-03T01:31:11.852Z"
+    },
+    "designer": {
+      "source": "kienhaminh/anti-chaotic",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/kienhaminh/anti-chaotic.git",
+      "skillPath": ".agent/skills/designer/SKILL.md",
+      "skillFolderHash": "550d6bee729cf9da7e771f3ff0a8bea89814530a",
+      "installedAt": "2026-02-03T01:31:12.071Z",
+      "updatedAt": "2026-02-03T01:31:12.071Z"
+    },
+    "product-manager": {
+      "source": "kienhaminh/anti-chaotic",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/kienhaminh/anti-chaotic.git",
+      "skillPath": ".agent/skills/product-manager/SKILL.md",
+      "skillFolderHash": "df147b3999879cda471a34639987fc7e40dbccc7",
+      "installedAt": "2026-02-03T01:31:12.291Z",
+      "updatedAt": "2026-02-03T01:31:12.291Z"
+    },
+    "qa-tester": {
+      "source": "kienhaminh/anti-chaotic",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/kienhaminh/anti-chaotic.git",
+      "skillPath": ".agent/skills/qa-tester/SKILL.md",
+      "skillFolderHash": "6e50caca15abe65509db2ca4a20a88eafbab37b3",
+      "installedAt": "2026-02-03T01:31:12.510Z",
+      "updatedAt": "2026-02-03T01:31:12.510Z"
+    },
+    "ios-simulator-skill": {
+      "source": "conorluddy/ios-simulator-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/conorluddy/ios-simulator-skill.git",
+      "skillPath": "ios-simulator-skill/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-02-24T02:45:09.760Z",
+      "updatedAt": "2026-02-24T02:45:09.760Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "codex",
+    "cursor",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "claude-code"
+  ]
+}
