@@ -63,6 +63,15 @@
       "skillFolderHash": "",
       "installedAt": "2026-02-24T02:45:09.760Z",
       "updatedAt": "2026-02-24T02:45:09.760Z"
+    },
+    "swiftui-skills": {
+      "source": "ameyalambat128/swiftui-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/ameyalambat128/swiftui-skills.git",
+      "skillPath": "src/skill/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-02-24T03:07:08.725Z",
+      "updatedAt": "2026-02-24T03:07:08.725Z"
     }
   },
   "dismissed": {
