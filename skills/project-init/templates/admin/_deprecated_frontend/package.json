@@ -1,0 +1,29 @@
+{
+  "name": "{{PROJECT_NAME}}-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "umi dev",
+    "build": "umi build",
+    "preview": "umi preview",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@ant-design/pro-components": "^2.6.43",
+    "@ant-design/pro-layout": "^7.17.16",
+    "antd": "^5.12.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "umi": "^4.0.87",
+    "umi-request": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@umijs/lint": "^4.0.87",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  }
+}

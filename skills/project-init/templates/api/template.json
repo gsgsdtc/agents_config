@@ -1,0 +1,92 @@
+{
+  "name": "api",
+  "description": "API 服务（支持 Go/Python/Node 多种技术栈）",
+  "version": "1.0.0",
+
+  "variants": {
+    "go": {
+      "framework": "Gin",
+      "orm": "GORM",
+      "logger": "Zap",
+      "config": "Viper",
+      "auth": "JWT (golang-jwt)",
+      "docs": "Swaggo (Swagger)",
+      "testing": "go test + testify",
+      "structure": {
+        "cmd/server/main.go": "入口",
+        "internal/config/": "配置加载",
+        "internal/handler/": "HTTP Handler",
+        "internal/service/": "业务逻辑",
+        "internal/repository/": "数据访问层",
+        "internal/model/": "数据模型",
+        "pkg/response/": "统一响应封装",
+        "pkg/errors/": "错误码定义",
+        "pkg/middleware/": "HTTP 中间件（JWT/CORS/Log）",
+        "api/swagger/": "Swagger 文档",
+        "configs/config.yaml": "配置文件",
+        "scripts/": "辅助脚本"
+      }
+    },
+    "python": {
+      "framework": "FastAPI",
+      "orm": "SQLAlchemy 2.0",
+      "validation": "Pydantic v2",
+      "migration": "Alembic",
+      "auth": "python-jose (JWT)",
+      "docs": "内置 OpenAPI",
+      "testing": "pytest + pytest-asyncio + httpx",
+      "structure": {
+        "app/api/v1/": "路由（按版本组织）",
+        "app/api/deps.py": "依赖注入",
+        "app/core/config.py": "配置",
+        "app/core/security.py": "认证逻辑",
+        "app/models/": "SQLAlchemy 模型",
+        "app/schemas/": "Pydantic Schema",
+        "app/services/": "业务逻辑",
+        "alembic/": "数据库迁移",
+        "tests/": "测试目录",
+        "main.py": "入口"
+      }
+    },
+    "node": {
+      "framework": "Express",
+      "orm": "Prisma / TypeORM",
+      "validation": "Zod",
+      "auth": "jsonwebtoken",
+      "docs": "swagger-jsdoc + swagger-ui-express",
+      "testing": "vitest + supertest",
+      "structure": {
+        "src/routes/": "路由定义",
+        "src/controllers/": "控制器",
+        "src/services/": "业务逻辑",
+        "src/models/": "数据模型",
+        "src/middleware/": "中间件",
+        "src/utils/": "工具函数",
+        "src/config/": "配置",
+        "prisma/schema.prisma": "数据库 Schema",
+        "tests/": "测试目录",
+        "src/index.ts": "入口"
+      }
+    }
+  },
+
+  "database_options": ["PostgreSQL", "MySQL", "SQLite", "MongoDB"],
+
+  "common_features": [
+    "统一响应封装 (code/message/data)",
+    "错误处理中间件",
+    "日志配置 (结构化日志)",
+    "数据库连接池",
+    "JWT 认证中间件",
+    "CORS 配置",
+    "健康检查接口 (GET /health)",
+    "示例 CRUD 接口"
+  ],
+
+  "deployment": {
+    "docker": true,
+    "docker_compose": true,
+    "makefile": true,
+    "ci_cd": ["GitLab CI", "GitHub Actions"]
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "name": "fullstack",
+  "description": "全栈应用（支持 Next.js / Nuxt / SvelteKit）",
+  "version": "1.0.0",
+
+  "variants": {
+    "nextjs": {
+      "framework": "Next.js 14+",
+      "runtime": "React 18 + TypeScript",
+      "routing": "App Router",
+      "styling": "Tailwind CSS",
+      "orm": "Prisma",
+      "auth": "NextAuth.js / Auth.js",
+      "testing": "vitest + Playwright",
+      "structure": {
+        "src/app/": "App Router 页面和路由",
+        "src/app/api/": "API Routes",
+        "src/components/": "React 组件",
+        "src/lib/": "工具库（db/auth/utils）",
+        "src/hooks/": "自定义 Hooks",
+        "src/types/": "TypeScript 类型",
+        "prisma/schema.prisma": "数据库 Schema",
+        "public/": "静态资源",
+        "tests/": "测试目录"
+      },
+      "features": [
+        "Server Components (RSC)",
+        "Server Actions",
+        "中间件认证",
+        "Edge Runtime 支持",
+        "Image 优化",
+        "SEO 元数据 API"
+      ]
+    },
+    "nuxt": {
+      "framework": "Nuxt 3",
+      "runtime": "Vue 3 + TypeScript",
+      "styling": "Tailwind CSS / UnoCSS",
+      "orm": "Prisma / Drizzle",
+      "auth": "nuxt-auth-utils",
+      "testing": "vitest + @nuxt/test-utils",
+      "structure": {
+        "pages/": "文件系统路由",
+        "server/api/": "API 路由",
+        "components/": "Vue 组件",
+        "composables/": "组合式函数",
+        "utils/": "工具函数",
+        "types/": "TypeScript 类型",
+        "prisma/": "数据库 Schema"
+      }
+    }
+  },
+
+  "database_options": ["PostgreSQL", "SQLite", "Supabase", "PlanetScale"],
+
+  "common_features": [
+    "SSR / SSG 混合渲染",
+    "认证系统（Session / JWT）",
+    "数据库 ORM 集成",
+    "表单验证（Zod）",
+    "响应式 UI",
+    "暗色模式",
+    "SEO 优化"
+  ],
+
+  "deployment": {
+    "docker": true,
+    "docker_compose": true,
+    "vercel": true,
+    "ci_cd": ["GitHub Actions", "Vercel"]
+  }
+}

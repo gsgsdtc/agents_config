@@ -1,0 +1,44 @@
+{
+  "name": "admin",
+  "description": "后台 API 服务 (Flask API + Swagger, backend only)",
+  "version": "1.0.0",
+
+  "backend": {
+    "framework": "Flask 2.x",
+    "orm": "Flask-SQLAlchemy",
+    "auth": "Flask-JWT-Extended",
+    "migration": "Flask-Migrate (Alembic)",
+    "docs": "Flask-RESTX (Swagger UI)",
+    "testing": "pytest + pytest-flask",
+    "structure": {
+      "app/api/": "路由蓝图 (按模块组织)",
+      "app/models/": "SQLAlchemy 数据模型",
+      "app/services/": "业务逻辑层",
+      "app/utils/": "工具函数",
+      "app/__init__.py": "Flask 工厂函数",
+      "migrations/": "Alembic 数据库迁移",
+      "tests/": "测试目录",
+      "config.py": "环境配置",
+      "requirements.txt": "Python 依赖"
+    }
+  },
+
+  "database_options": ["PostgreSQL", "MySQL", "SQLite"],
+
+  "deployment": {
+    "docker": true,
+    "docker_compose": true,
+    "makefile": true,
+    "ci_cd": ["GitLab CI", "GitHub Actions"]
+  },
+
+  "generated_files": [
+    "docker-compose.yml",
+    "Dockerfile",
+    "Makefile",
+    ".env.example",
+    ".gitignore"
+  ],
+
+  "notes": "前端项目请使用 ui-gen skill 初始化（支持 Web/iOS/Android 三端）"
+}

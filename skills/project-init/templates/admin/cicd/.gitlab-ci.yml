@@ -1,0 +1,49 @@
+image: ubuntu
+
+stages:
+  - build
+  - publish
+  - notify
+
+variables:
+
+
+publish-beta:
+  stage: publish
+  image: publisher:latest
+  only:
+    - beta
+  when: manual
+  script:
+    - publish.sh beta
+
+notify-beta:
+  stage: notify
+  image: notifier:latest
+  only:
+    - beta
+  when: manual
+  script:
+    - notify.sh beta
+  dependencies:
+    - publish-beta
+
+publish-prod:
+  stage: publish
+  image: publisher:latest
+  only:
+    - main
+  when: manual
+  script:
+    - publish.sh prod
+
+notify-prod:
+  stage: notify
+  image: notifier:latest
+  only:
+    - main
+  when: manual
+  script:
+    - notify.sh prod
+  dependencies:
+    - publish-prod
