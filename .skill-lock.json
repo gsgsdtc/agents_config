@@ -72,6 +72,14 @@
       "skillFolderHash": "",
       "installedAt": "2026-02-24T03:07:08.725Z",
       "updatedAt": "2026-02-24T03:07:08.725Z"
+    },
+    "auto-ai-coauthor": {
+      "source": "skills.meitu-int.com/skills/auto-ai-coauthor",
+      "sourceType": "well-known",
+      "sourceUrl": "https://skills.meitu-int.com/skills/auto-ai-coauthor/.well-known/skills/auto-ai-coauthor/SKILL.md",
+      "skillFolderHash": "6d68a8ee",
+      "installedAt": "2026-04-03T02:32:19.017Z",
+      "updatedAt": "2026-04-03T02:32:19.017Z"
     }
   },
   "dismissed": {
@@ -79,12 +87,16 @@
   },
   "lastSelectedAgents": [
     "amp",
+    "antigravity",
+    "cline",
     "codex",
     "cursor",
+    "deepagents",
     "gemini-cli",
     "github-copilot",
     "kimi-cli",
     "opencode",
+    "warp",
     "claude-code"
   ]
 }
