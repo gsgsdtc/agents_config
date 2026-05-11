@@ -52,7 +52,7 @@ version: 0.6.0
 │               │             │             │          │
 │               └─────────────┴──────┬──────┘          │
 │                                    ▼                 │
-│                      code-review-loop → spec-sync    │
+│                 design-review-dev → spec-sync       │
 │                                                      │
 └─────────────────────────────────────────────────────┘
 ```
@@ -477,7 +477,7 @@ model/*.kt → viewmodel/*ViewModel.kt → ui/screens/*Screen.kt → ui/componen
 
 ### 下一步建议
 1. 安装依赖
-2. 运行 code-review-loop
+2. 运行 design-review-dev（代码审查 + E2E）
 3. 连接真实 API（替换 mock 数据）
 4. E2E 测试（基于 §9 测试方案）
 ```
@@ -499,6 +499,39 @@ model/*.kt → viewmodel/*ViewModel.kt → ui/screens/*Screen.kt → ui/componen
 | 文件 | 用途 |
 |------|------|
 | `references/design-rules.md` | 通用设计规则（40 条，9 类） |
+| `references/design-concepts.md` | 设计概念：色彩/排版/动效/布局/品牌 |
+| `references/perf-rules.md` | React/Next.js 性能规则（45 条，8 类） |
+
+### 设计概念（来自 designer）
+
+Phase 2 生成代码时应用以下设计概念：
+
+| 概念 | 风格 |
+|------|------|
+| Apple Glassmorphism | 半透明磨砂、景深感 |
+| Neo-Brutalism | 高对比、粗边框、原始感 |
+| Claymorphism | 柔和 3D、膨胀感 |
+| Aurora Gradients | 动态模糊色彩网格 |
+| Bento Grids | 模块化网格布局 |
+
+### 素材生成（来自 designer）
+
+需生成图标/插画/头像时：
+1. `generate_image` — 按 `[主题] + [风格] + [光照/色彩] + [质量]` 公式生成
+2. `python3 scripts/remove_background.py <in> <out>` — 移除背景
+
+### 性能规则（来自 react-best-practices）
+
+代码生成时自动应用以下规则（按优先级）：
+
+| 优先级 | 类别 | 示例规则 |
+|--------|------|---------|
+| 1 CRITICAL | 消除请求瀑布 | `Promise.all()` 并行、Suspense 流式 |
+| 2 CRITICAL | Bundle 优化 | 避免 barrel import、next/dynamic 懒加载 |
+| 3 HIGH | 服务端性能 | React.cache()、LRU 缓存、最小化序列化 |
+| 4 MEDIUM | 客户端请求 | SWR 去重、事件监听去重 |
+| 5 MEDIUM | 重渲染优化 | memo、useTransition、functional setState |
+| 6 LOW | JS 性能 | Set/Map 查找、提前返回、正则提升 |
 
 ### 平台专属文件
 
@@ -517,5 +550,5 @@ model/*.kt → viewmodel/*ViewModel.kt → ui/screens/*Screen.kt → ui/componen
 
 | 下游 Skill | 输出 → 输入 |
 |------------|------------|
-| code-review-loop | 生成代码 → 代码审查 |
+| design-review-dev | 生成代码 → 代码审查 + E2E |
 | spec-sync | 开发完成 → 回写 Spec |

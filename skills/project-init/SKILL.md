@@ -1,500 +1,251 @@
 ---
 name: project-init
 description: |
-  通用项目骨架生成，支持多种技术栈模式。
+  一站式项目初始化：代码骨架生成 + spec 文档体系初始化。
+  触发: 初始化项目/创建项目/project-init/初始化spec/创建文档体系/新项目setup
 
-  触发条件：
-  - "初始化项目" / "创建新项目" / "project-init"
-  - "生成项目骨架" / "创建项目结构"
-  - "新项目 setup" + 技术栈信息
-  - 需要生成代码骨架时
-
-  关键词识别：项目初始化、project init、骨架、scaffold、boilerplate
-version: 0.3.0
+  关键词：项目初始化、project init、骨架、scaffold、spec、文档体系、Epic、模块划分
+version: 1.0.0
 ---
 
 # Project Init
 
 ## 目的
 
-- 根据技术栈选择生成项目骨架
-- 支持多种项目模式：admin、api、fullstack、microservice
-- 生成基础代码、配置和 CI/CD 文件
-- 吸收现有 admin-project-init 能力
+一站式项目初始化，支持两种维度组合：
+- **代码骨架**：生成项目目录、基础代码、配置、CI/CD
+- **spec 文档体系**：生成 project-spec.md + module specs + main-flows.md
 
-## 支持模式
+## 模式
 
-| 模式 | 说明 | 技术栈 |
-|------|------|--------|
-| **admin** | 后台 API 服务 | Flask API + Swagger |
-| **api** | API 服务 | Go/Gin 或 Python/FastAPI |
-| **fullstack** | 全栈应用 | 后端 + ui-gen 前端 |
-| **microservice** | 微服务 | 多模块 Go/Node |
+| 模式 | 代码骨架 | spec 文档 | 适用场景 |
+|------|---------|----------|---------|
+| `code-admin` | Flask API | — | 后台 API 服务 |
+| `code-api` | Go/Gin 或 Python/FastAPI | — | API 服务 |
+| `code-fullstack` | 后端 + ui-gen 前端 | — | 全栈应用 |
+| `code-microservice` | Go/Node 多模块 | — | 微服务 |
+| `spec` | — | ✅ | 纯文档初始化 |
+| `full` | ✅ | ✅ | 完整项目启动 |
+
+---
 
 ## 工作流
 
-### 1) 交互式技术栈选择
+### 入口：模式选择
 
 ```
-🏗️ 项目类型选择
+🏗️ 项目初始化
 
-请选择项目类型：
-  [1] admin - 后台 API 服务 (Flask + Swagger)
-  [2] api - API 服务 (Go/Gin 或 Python/FastAPI)
-  [3] fullstack - 全栈应用 (后端 + ui-gen)
-  [4] microservice - 微服务架构
+请选择模式：
+  [1] code-admin     - Flask API 后台
+  [2] code-api       - Go/Python API 服务
+  [3] code-fullstack - 全栈（后端 + ui-gen 前端）
+  [4] code-microservice - 微服务
+  [5] spec           - 仅初始化 spec 文档体系
+  [6] full           - 完整初始化（代码骨架 + spec 文档）
 
-📝 项目信息
-  项目名称 (英文，小写): my-project
-  Git 仓库地址: https://github.com/user/my-project
-  命名空间 (用于部署): my-namespace
-
-🎨 技术栈选择
-
-[admin 模式]
-  后端: Flask + SQLAlchemy + Swagger
-  数据库: [PostgreSQL/MySQL/SQLite]
-  ⚠️ 前端项目请使用 ui-gen skill 初始化（支持 Web/iOS/Android 三端）
-
-[api 模式]
-  语言: [Go/Python/Node]
-  框架: [Gin/FastAPI/Express]
-  数据库: [PostgreSQL/MySQL/MongoDB]
-
-[fullstack 模式]
-  框架: [Next.js/Nuxt/SvelteKit]
-  数据库: [PostgreSQL/Supabase/无]
+📝 项目名称（英文小写）: my-project
 ```
 
-### 2) 生成项目结构
-
-根据选择的模式生成对应的项目结构：
-
-#### admin 模式
+`code-*` / `full` 模式追加技术栈选择：
 
 ```
-my-project/
-├── backend/                  # Flask API
-│   ├── app/
-│   │   ├── api/             # 路由
-│   │   ├── models/          # 数据模型
-│   │   ├── services/        # 业务逻辑
-│   │   └── utils/
-│   ├── migrations/          # 数据库迁移
-│   ├── tests/
-│   ├── app.py
-│   ├── config.py
-│   └── requirements.txt
-├── docker-compose.yml
-├── Dockerfile
-├── Makefile
-└── .gitlab-ci.yml / .github/workflows/
+[code-admin] 数据库: PostgreSQL / MySQL / SQLite
+[code-api]   语言: Go / Python | 框架: Gin / FastAPI
+[code-fullstack] 框架: Next.js / Nuxt | 数据库: PostgreSQL / Supabase
+[code-microservice] 语言: Go / Node
 ```
 
-> **注意**：前端项目请使用 ui-gen skill 初始化（支持 Web/iOS/Android 三端）
+---
 
-#### api 模式 (Go)
+## A. 代码骨架生成（code-* / full）
 
-```
-my-project/
-├── cmd/
-│   └── server/
-│       └── main.go
-├── internal/
-│   ├── config/
-│   ├── handler/            # HTTP 处理器
-│   ├── service/            # 业务逻辑
-│   ├── repository/         # 数据访问
-│   └── model/              # 数据模型
-├── pkg/
-│   ├── response/           # 统一响应
-│   ├── errors/             # 错误处理
-│   └── middleware/         # HTTP 中间件
-├── api/
-│   └── swagger/            # API 文档
-├── configs/
-│   └── config.yaml
-├── scripts/
-├── docker-compose.yml
-├── Dockerfile
-├── Makefile
-└── go.mod
-```
+### A1. 项目结构
 
-#### api 模式 (Python)
+从模板目录生成，各模式结构见 `templates/<mode>/`：
 
-```
-my-project/
-├── app/
-│   ├── api/
-│   │   ├── deps.py         # 依赖注入
-│   │   └── v1/
-│   ├── core/
-│   │   ├── config.py
-│   │   └── security.py
-│   ├── models/             # SQLAlchemy 模型
-│   ├── schemas/            # Pydantic 模型
-│   └── services/
-├── alembic/                # 数据库迁移
-├── tests/
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-└── main.py
-```
+| 模式 | 模板目录 | 关键目录 |
+|------|---------|---------|
+| code-admin | `templates/admin/` | backend/{app,api,models,services}, migrations/, tests/ |
+| code-api (Go) | `templates/api/go/` | cmd/, internal/{handler,service,repository,model}, pkg/ |
+| code-api (Python) | `templates/api/python/` | app/{api,core,models,schemas,services}, alembic/ |
+| code-fullstack | `templates/fullstack/` | src/{app,components,lib,hooks}, prisma/ |
+| code-microservice | `templates/microservice/` | services/{name}/{cmd,internal,pkg} |
 
-#### fullstack 模式 (Next.js)
+### A2. 基础代码
+
+生成内容：统一响应封装、错误处理中间件、数据库连接、JWT 认证中间件、CRUD 示例、健康检查。
+
+日志配置（所有模式均生成）：`.env` 中配置 LOG_LEVEL/LOG_OUTPUT/LOG_FILE_PATH/LOG_MAX_SIZE/LOG_MAX_BACKUPS/LOG_MAX_AGE，各语言实现见 `templates/common/logging/`（Go Zap / Python loguru / Flask logging）。
+
+> 日志规范：所有 POST/PUT/PATCH/DELETE 接口必须在入口打印请求参数、出口打印响应结果和耗时。
+
+### A3. 部署配置
+
+Dockerfile / docker-compose / CI/CD 从 `templates/<mode>/cicd/` 读取生成。
+
+### A4. Makefile
+
+从 `templates/<mode>/` 读取，包含 run/dev/test/build/docker/migrate 等 target。
+
+---
+
+## B. Spec 文档初始化（spec / full）
+
+### B1. 获取项目信息
+
+**方式 A：用户提供 Epic 文档**（推荐）
+
+Epic 需包含：
+
+| 信息 | 用途 | 必要性 |
+|------|------|--------|
+| 产品目标 | → project-spec §1 | 必须 |
+| 用户角色/场景 | → 识别模块边界 | 必须 |
+| 功能列表/用户故事 | → 拆分 feat + 识别模块 | 必须 |
+| 非功能需求 | → 技术栈选型 + 全局约束 | 建议 |
+| 外部系统集成 | → 边界模块识别 | 有则填 |
+
+**方式 B：交互式问答**
 
 ```
-my-project/
-├── src/
-│   ├── app/                # App Router
-│   ├── components/
-│   ├── lib/
-│   ├── hooks/
-│   └── types/
-├── prisma/                 # 数据库 Schema
-├── public/
-├── tests/
-├── Dockerfile
-├── docker-compose.yml
-├── next.config.js
-├── tailwind.config.ts
-└── package.json
+📋 项目基本信息
+  项目名称: ___________
+  Git 仓库: ___________
+
+🏗️ 项目类型
+  ○ 后台管理系统 / API 服务 / 全栈应用 / 纯前端 / 微服务
+
+🎨 前端: React + Next.js / Vue / 不需要
+⚙️ 后端: Go + Gin / Python + FastAPI / Java + Spring Boot / Node + Express
+💾 数据库: PostgreSQL / MySQL / SQLite / MongoDB
+🚀 CI/CD: GitLab CI / GitHub Actions / 不需要
 ```
 
-### 3) 生成基础代码
+### B2. 解析 + 模块划分
 
-**通用组件**：
-- 统一的响应封装
-- 错误处理中间件
-- 日志配置（见下方）
-- 数据库连接
-- 认证中间件（JWT）
-- 基础 CRUD 示例
+**名词提取** → 数据域（实体）
+**动词提取** → 功能域（能力）
+**外部系统** → 边界模块（集成点）
 
-**Admin 模式特有**：
-- 用户管理 API
-- JWT 认证与权限控制
-- Swagger API 文档
+示例：
+```
+输入："工作流自动化平台。用户注册登录后，通过拖拽创建 DAG 工作流，
+      设置定时触发或 Webhook 触发，执行结果在仪表盘查看。"
 
-**API 模式特有**：
-- OpenAPI/Swagger 配置
-- 健康检查接口
-- 示例 CRUD 接口
+名词 → 用户、工作流、DAG、触发器、执行结果、仪表盘
+动词 → 注册登录、创建拖拽、设置触发、执行、查看
 
-#### 日志配置（必须生成）
-
-所有模式均须在 `.env` 中生成日志配置项：
-
-```env
-# Logging
-LOG_LEVEL=info
-LOG_OUTPUT=console          # console | file | both
-LOG_FILE_PATH=logs/app.log
-LOG_MAX_SIZE=100            # 单个日志文件最大 MB
-LOG_MAX_BACKUPS=5           # 保留的历史日志文件数
-LOG_MAX_AGE=30              # 日志文件最大保留天数
+模块划分：
+┌──────────────┬───────────────────────────────┐
+│ auth         │ 用户、注册登录                  │
+│ workflow     │ DAG、创建拖拽、工作流定义        │
+│ trigger      │ 定时触发、Webhook 触发          │
+│ execution    │ 执行、执行结果                  │
+│ dashboard    │ 仪表盘、查看                    │
+└──────────────┴───────────────────────────────┘
 ```
 
-**各技术栈 Logger 初始化示例**：
+输出模块划分表并附确认问题，等待用户确认或调整。
 
-Go + Zap（`pkg/logger/logger.go`）：
-```go
-func InitLogger(cfg *config.LogConfig) {
-    encoderCfg := zap.NewProductionEncoderConfig()
-    encoderCfg.TimeKey = "timestamp"
-    encoderCfg.EncodeTime = zapcore.ISO8601TimeEncoder
+### B3. 生成文档
 
-    var cores []zapcore.Core
-    encoder := zapcore.NewJSONEncoder(encoderCfg)
+| 文档 | 路径 | 模板 |
+|------|------|------|
+| Project Spec | `docs/spec/project-spec.md` | `assets/project-spec-template.md` |
+| Main Flows | `docs/spec/main-flows.md` | 骨架：P0/P1 流程列表（5-10 条） |
+| Module Spec | `docs/modules/<module>/spec.md` | `assets/module-spec-template.md` |
 
-    if cfg.Output == "console" || cfg.Output == "both" {
-        cores = append(cores, zapcore.NewCore(encoder, zapcore.AddSync(os.Stdout), level))
-    }
-    if cfg.Output == "file" || cfg.Output == "both" {
-        w := &lumberjack.Logger{
-            Filename:   cfg.FilePath,
-            MaxSize:    cfg.MaxSize,    // MB
-            MaxBackups: cfg.MaxBackups,
-            MaxAge:     cfg.MaxAge,
-        }
-        cores = append(cores, zapcore.NewCore(encoder, zapcore.AddSync(w), level))
-    }
-    Logger = zap.New(zapcore.NewTee(cores...))
-}
-```
+**Main Flows 示例骨架**：
 
-Python + loguru（`app/core/logging.py`）：
-```python
-from loguru import logger
-import sys
+| ID | 主流程 | 优先级 | 状态 |
+|----|--------|--------|------|
+| MF-001 | 用户注册→登录→进入系统 | P0 | ⏳ 待补充 |
+| MF-002 | 创建工作流→触发执行→查看结果 | P0 | ⏳ 待补充 |
 
-def init_logger(settings):
-    logger.remove()
-    fmt = "{time:YYYY-MM-DD HH:mm:ss} | {level} | {name} | {message}"
-    if settings.LOG_OUTPUT in ("console", "both"):
-        logger.add(sys.stdout, format=fmt, level=settings.LOG_LEVEL.upper())
-    if settings.LOG_OUTPUT in ("file", "both"):
-        logger.add(
-            settings.LOG_FILE_PATH,
-            format=fmt,
-            level=settings.LOG_LEVEL.upper(),
-            rotation=f"{settings.LOG_MAX_SIZE} MB",
-            retention=f"{settings.LOG_MAX_AGE} days",
-            compression="gz",
-        )
-```
+P0：核心端到端路径；P1：重要但非关键路径。宁少勿滥。
 
-Flask + logging（`app/utils/logger.py`）：
-```python
-import logging, sys
-from logging.handlers import RotatingFileHandler
+**Module Spec 内容**：模块职责（一句话）+ 功能列表（从 Epic 提取）+ 数据模型（占位）+ 对外接口（占位）。
 
-def init_logger(app):
-    level = getattr(logging, app.config["LOG_LEVEL"].upper(), logging.INFO)
-    fmt = logging.Formatter('{"time":"%(asctime)s","level":"%(levelname)s","module":"%(module)s","message":"%(message)s"}')
-    handlers = []
-    if app.config["LOG_OUTPUT"] in ("console", "both"):
-        h = logging.StreamHandler(sys.stdout)
-        h.setFormatter(fmt)
-        handlers.append(h)
-    if app.config["LOG_OUTPUT"] in ("file", "both"):
-        h = RotatingFileHandler(
-            app.config["LOG_FILE_PATH"],
-            maxBytes=app.config["LOG_MAX_SIZE"] * 1024 * 1024,
-            backupCount=app.config["LOG_MAX_BACKUPS"],
-        )
-        h.setFormatter(fmt)
-        handlers.append(h)
-    logging.basicConfig(level=level, handlers=handlers)
-```
+### B4. 可选：拆分 Feat
 
-> **日志规范**（继承自 project-spec §6.3）：所有 POST/PUT/PATCH/DELETE 接口必须在入口打印请求参数、出口打印响应结果和耗时；GET 查询接口不强制。
+如 Epic 包含明确功能列表，可拆分 feat 文档到 `docs/feat/feat-{编号}-{slug}.md`（模板参考 `issue-doc-gen/assets/feat-template.md`）。
 
-### 4) 生成部署配置
+### B5. full 模式：先 spec 后 code
 
-**Docker 配置**：
-```dockerfile
-# Dockerfile (Go 示例)
-FROM golang:1.21-alpine AS builder
-WORKDIR /app
-COPY . .
-RUN go build -o server cmd/server/main.go
+full 模式下，spec 文档生成后自动询问是否继续生成代码骨架（跳过重复信息收集）。
 
-FROM alpine:latest
-RUN apk --no-cache add ca-certificates
-WORKDIR /root/
-COPY --from=builder /app/server .
-CMD ["./server"]
-```
+---
 
-**docker-compose**：
-```yaml
-version: '3.8'
-services:
-  app:
-    build: .
-    ports:
-      - "8080:8080"
-    environment:
-      - DATABASE_URL=postgresql://user:pass@db:5432/mydb
-  db:
-    image: postgres:15
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: mydb
-```
-
-**CI/CD 配置**：
-```yaml
-# .github/workflows/ci.yml
-name: CI
-on: [push, pull_request]
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: '1.21'
-      - run: make test
-```
-
-### 5) 生成 Makefile
-
-```makefile
-.PHONY: build test run docker clean
-
-# 开发
-run:
-	go run cmd/server/main.go
-
-dev:
-	air
-
-# 测试
-test:
-	go test -v ./...
-
-test-coverage:
-	go test -cover ./...
-
-# 构建
-build:
-	go build -o bin/server cmd/server/main.go
-
-# Docker
-docker-build:
-	docker build -t $(PROJECT):latest .
-
-docker-run:
-	docker-compose up -d
-
-# 数据库
-migrate-up:
-	migrate -path migrations -database "$(DATABASE_URL)" up
-
-migrate-down:
-	migrate -path migrations -database "$(DATABASE_URL)" down
-
-clean:
-	rm -rf bin/
-```
-
-### 6) 输出总结
+## 输出总结
 
 ```
 ════════════════════════════════════════════════════════════════
 ✅ 项目初始化完成
 
-📁 生成的项目结构：
-  my-project/
-  ├── backend/           # Flask API 后端
-  ├── docker-compose.yml # 本地开发环境
-  ├── Makefile          # 常用命令
-  └── .github/workflows/ # CI/CD 配置
+📁 代码骨架（如选择）：
+  my-project/  ← 项目目录结构 + 基础代码 + CI/CD
 
-🚀 快速开始：
-  cd my-project
-
-  # 启动后端
-  cd backend
-  python -m venv venv
-  source venv/bin/activate
-  pip install -r requirements.txt
-  flask run
-
-  # 或使用 Docker
-  docker-compose up -d
+📄 Spec 文档（如选择）：
+  docs/spec/project-spec.md        ← 项目全局规格
+  docs/spec/main-flows.md          ← 主流程骨架
+  docs/modules/<module>/spec.md    ← 各模块规格
 
 📌 下一步：
-  1. 查看 README.md 了解项目结构
-  2. 配置数据库连接
-  3. 运行 spec-init 初始化文档体系
-  4. 使用 ui-gen skill 初始化前端项目（支持 Web/iOS/Android 三端）
-  5. 开始开发第一个功能
-
-⚠️ 注意事项：
-  - 默认使用 SQLite 便于本地开发，生产环境请切换为 PostgreSQL
-  - 已配置 JWT 认证，密钥请在生产环境修改
-  - 包含示例用户 admin/admin (开发环境)
-  - 前端项目请使用 ui-gen skill 初始化（支持 Web/iOS/Android 三端）
+  1. code-* 模式：开始开发 → /design-review-dev
+  2. spec 模式：有 Epic 拆分 feat 后 → /feat-review-design
+  3. full 模式：选择 feat 文档 → /feat-review-design
 ════════════════════════════════════════════════════════════════
 ```
 
-## 模式详情
+---
 
-### admin 模式
-
-**后端** (Flask):
-- Flask 2.x
-- Flask-SQLAlchemy
-- Flask-JWT-Extended
-- Flask-Migrate
-- Flask-RESTX (Swagger)
-- Pytest 测试
-
-> **注意**：前端项目请使用 ui-gen skill 初始化（支持 Web/iOS/Android 三端）
-
-### api 模式
-
-**Go 版本**:
-- Gin 框架
-- GORM
-- Zap 日志
-- Viper 配置
-- JWT 认证
-- Swagger 文档
-
-**Python 版本**:
-- FastAPI
-- SQLAlchemy 2.0
-- Pydantic v2
-- Alembic 迁移
-- Pytest + pytest-asyncio
-
-### fullstack 模式
-
-组合 admin 后端 + ui-gen 前端：
-- 后端：Flask API（同 admin 模式）
-- 前端：通过 ui-gen skill 初始化（Next.js + Tailwind + shadcn/ui）
-- 数据库：PostgreSQL/MySQL/SQLite
-
-## 与现有技能的关系
-
-| 场景 | 使用的 Skill |
-|------|-------------|
-| 通用项目初始化 | project-init |
-| 后台管理系统初始化 | project-init --mode=admin |
-| 已有 spec 后的代码生成 | spec-init 后调用 project-init |
-| 复杂业务系统 | spec-init → project-init → module-design |
-
-**与 admin-project-init 的关系**：
-- ✅ admin-project-init 已归并为 project-init 的 admin 模式
-- project-init 统一入口，根据 `--mode=admin` 分发
-- admin 模板文件位于 `templates/admin/`（backend/ + cicd/）
-- admin-project-init 已标记为 deprecated，不再独立使用
-- 前端模板已从 admin 模式移除，前端项目请使用 ui-gen skill 初始化
-
-## 配置模板
-
-模板文件位于 `templates/<mode>/` 目录：
+## 目录结构（初始化后）
 
 ```
-templates/
-├── admin/              # Flask API + Swagger (backend only)
-├── api/
-│   ├── go/            # Go + Gin
-│   └── python/        # Python + FastAPI
-├── fullstack/
-│   └── nextjs/        # Next.js
-└── microservice/
-    └── go/            # Go 微服务
+my-project/
+├── ...                          ← 代码骨架（code-* / full）
+├── docs/
+│   ├── spec/
+│   │   ├── project-spec.md      ← 项目全局规格
+│   │   └── main-flows.md        ← 主流程骨架
+│   ├── modules/
+│   │   └── <module>/
+│   │       ├── spec.md          ← 模块规格（活文档）
+│   │       ├── design/          ← 设计文档（待生成）
+│   │       └── fix/             ← 修复文档（待生成）
+│   └── feat/                    ← 需求文档
 ```
 
-## 扩展机制
-
-支持自定义模板：
-
-```bash
-# 使用自定义模板
-claude /project-init --template=/path/to/custom-template
-```
-
-自定义模板需包含：
-- `template.json` - 模板配置
-- `files/` - 模板文件目录
+---
 
 ## 资源
 
-- Admin 模板: `templates/admin/`
-  - `template.json` - 模板元数据配置
-  - `backend/` - Flask API 后端模板（app, models, api, config, wsgi）
-  - `cicd/` - CI/CD 部署模板（Dockerfile, Makefile, .gitlab-ci.yml, matrix.conf）
-  - `_deprecated_frontend/` - 已废弃的 Ant Design Pro 前端模板（请使用 ui-gen skill）
-- API 模板: `templates/api/`
-- Fullstack 模板: `templates/fullstack/`
+### 代码模板
+
+| 目录 | 内容 |
+|------|------|
+| `templates/admin/` | Flask API 后端 + CI/CD |
+| `templates/api/go/` | Go + Gin |
+| `templates/api/python/` | Python + FastAPI |
+| `templates/fullstack/` | Next.js 全栈 |
+| `templates/microservice/` | Go 微服务 |
+| `templates/common/logging/` | 各语言日志初始化代码 |
+
+### 文档模板
+
+| 文件 | 用途 |
+|------|------|
+| `assets/project-spec-template.md` | project-spec.md 模板 |
+| `assets/module-spec-template.md` | module spec 模板 |
+
+---
+
+## 与其他 Skill 的关系
+
+| 场景 | 使用的 Skill |
+|------|-------------|
+| 项目初始化（全模式） | **project-init** |
+| 详细设计 | feat-review-design |
+| 按设计开发 | design-review-dev |
+| 前端/客户端 | ui-gen |
