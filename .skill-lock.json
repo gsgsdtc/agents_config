@@ -80,6 +80,15 @@
       "skillFolderHash": "6d68a8ee",
       "installedAt": "2026-04-03T02:32:19.017Z",
       "updatedAt": "2026-04-03T02:32:19.017Z"
+    },
+    "huashu-design": {
+      "source": "alchaincyf/huashu-design",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/alchaincyf/huashu-design.git",
+      "skillPath": "SKILL.md",
+      "skillFolderHash": "1f865a019153a133a69fc7ab251e94fd3d07b6a74e0adaa19e58c1006af9b9cd",
+      "installedAt": "2026-06-02T04:02:52.866Z",
+      "updatedAt": "2026-06-02T04:02:52.866Z"
     }
   },
   "dismissed": {
@@ -92,11 +101,14 @@
     "codex",
     "cursor",
     "deepagents",
+    "dexto",
+    "firebender",
     "gemini-cli",
     "github-copilot",
     "kimi-cli",
     "opencode",
     "warp",
+    "zed",
     "claude-code"
   ]
 }
